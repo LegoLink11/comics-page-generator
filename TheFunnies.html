@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All the comics</title>
+    <link rel="stylesheet" type="text/css" href="comicsstylesheet.css">
+    <meta charset="utf-8">
+    
+</head>
+
+<body>
+
+<header>
+<h1 id="date"></h1>
+</header>
+<script>
+        n = new Date();
+        y = n.getFullYear();
+        m = n.getMonth() + 1;
+        d = n.getDate();
+        document.getElementById("date").innerHTML = d + ". " + m + ", " + y;
+</script>
+
+<div id="comic-container">
+    <div id="xkcd" class="container">
+        <a href="https://xkcd.com">XKCD ~ Randall Munroe</a>
+        <img class="comic" src="xkcd">
+        <p id="xkcdtext">Hover text</p>
+    </div>
+    
+    <div id="smbc" class="container">
+        <a href="https://www.smbc-comics.com/">SMBC ~ Anthony Wienersmith</a>
+        <img class="comic" src="smbc">
+        <img src="smbc-bonus">
+        <p id="smbctext">Hover text</p>
+    </div>
+
+    <div id="bug-martini" class="container">
+        <a href="http://www.bugmartini.com">Bug Martini ~ Adam Huber</a>
+        <img class="comic" src="bugmartini">
+    </div>
+
+    <div id="the-whiteboard" class="container">
+        <a href="http://the-whiteboard.com/">The Whiteboard ~ Doc Nickel</a>
+        <img class="comic" src="whiteboard">
+    </div>
+
+    <div id="dinosaur-comics" class="container">
+        <a href="http://www.qwantz.com/index.php">Dinosaur Comics ~ Ryan North</a>
+        <img class="comic" src="dinosaurcomics">
+        <p id="dctext">Hover text</p>
+    </div>
+
+    <div class="container">
+        <a href="http://nellucnhoj.com">Nellucnhoj ~ John Cullen</a>
+        <img class="comic" src="nellucnhoj">
+    </div>
+
+    <div class="container">
+        <a href="http://www.housepetscomic.com">Housepets ~ Rick Griffin</a>
+        <img class="comic" src="housepets">
+        <p id="housepetstext">Hover text</p>
+    </div>
+
+    <div class="container">
+        <a href="http://www.joshuawright.net/index.html">Slackwyrm ~ Joshua Wright</a>
+        <img class="comic" src="slackwyrm">
+    </div>
+
+    <div class="container">
+        <a href="http://jerkcity.com">Jerkcity ~ Rands</a>
+        <img class="comic" src="jerkcity">
+    </div>
+
+    <div class="container">
+        <a href="http://sarahburrini.com/wordpress/">Das Leben ist kein Ponyhof ~ Sarah Burrini</a>
+        <img class="comic" src="ponyhof">
+    </div>
+
+    <div class="container">
+        <a href="http://ruthe.de/">Ruthe.de ~ Ralph Ruthe</a>
+        <img class="comic" src="ruthe">
+    </div>
+
+    <div class="container">
+        <a href="https://2null3.net/category/deutsch/">Zwei Null Drei (2null3) ~ Robert Emrich</a>
+        <img class="comic" src="2null3">
+    </div>
+</div>
+<script src="hovertext.js"></script>
+</body>
+</html>
