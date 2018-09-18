@@ -1,0 +1,40 @@
+body{
+    background-color: #DDD;
+}
+
+.comic{
+    padding: 20px;
+}
+
+.button{
+	float: left;
+	clear: right;
+	margin-bottom: 50px;
+}
+
+#comic-container{
+    float: left;
+    width: 75%;
+}
+
+.bonus-container{
+    float:right;
+    width: 100%;
+}
+
+.container{
+    background-color: #FFF;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 25px;
+}
+
+a{
+    text-decoration: none;
+}
+
+header{
+    text-align: center;
+    background-color: #FFF;
+    padding: 20px;
+}
