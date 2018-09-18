@@ -2,6 +2,21 @@
 <html>
 <head>
     <title>All the comics</title>
+<script>
+        /*This doesn't work. I'll probably fix it later.*/
+		
+        /*function resizeAllImages(){
+			var allImages = document.getElementsByClassName("comic");
+            if bool == false(){
+			    for (i = 0; i < allImages.length; i++) {
+    				    allImages[i].style.height = allImages[i].naturalHeight;
+					    allImages[i].style.width = allImages[i].naturalWidth;
+			    }
+            }
+		}
+        var i = 0;
+        var bool = false;*/
+    </script>
     <link rel="stylesheet" type="text/css" href="comicsstylesheet.css">
     <meta charset="utf-8">
     
@@ -19,6 +34,8 @@
         d = n.getDate();
         document.getElementById("date").innerHTML = d + ". " + m + ", " + y;
 </script>
+
+<button type="button" class = "button" onclick="resizeAllImages();">Toggle Resolution</button>
 
 <div id="comic-container">
     <div id="xkcd" class="container">
@@ -67,8 +84,13 @@
     </div>
 
     <div class="container">
-        <a href="http://jerkcity.com">Jerkcity ~ Rands</a>
+        <a href="https://www.bonequest.com/">BoneQuest(formerly Jerkcity) ~ Rands</a>
         <img class="comic" src="jerkcity">
+    </div>
+
+    <div class="container">
+        <a href="http://sandraandwoo.com/woode/">Sandra und Woo ~ Oliver Knörzer und Puri Andini</a>
+        <img class="comic" src="sandraandwoo">
     </div>
 
     <div class="container">
