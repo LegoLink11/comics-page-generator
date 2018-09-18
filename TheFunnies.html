@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>All the comics</title>
-<script>
-        /*This doesn't work. I'll probably fix it later.*/
-		
-        /*function resizeAllImages(){
-			var allImages = document.getElementsByClassName("comic");
-            if bool == false(){
-			    for (i = 0; i < allImages.length; i++) {
-    				    allImages[i].style.height = allImages[i].naturalHeight;
-					    allImages[i].style.width = allImages[i].naturalWidth;
-			    }
-            }
-		}
-        var i = 0;
-        var bool = false;*/
-    </script>
     <link rel="stylesheet" type="text/css" href="comicsstylesheet.css">
+    <title>All the comics</title>
+    <script>
+        /*This lets you switch between a nice looking consistent comic size to the natural resolution of the comics*/
+		
+        function resizeAllImages(large, natural){
+            if (bool == false){
+                var nextStyleSheet = natural;
+            }else{
+                nextStyleSheet = large;
+            }
+			    var oldLink = document.getElementsByTagName("link").item("cssLinkIndex");
+                
+                var newLink = document.createElement("link");
+                newLink.setAttribute("rel","stylesheet");
+                newLink.setAttribute("type", "text/css");
+                newLink.setAttribute("href", nextStyleSheet);
+                
+                document.getElementsByTagName("head").item(0).replaceChild(newLink, oldLink);
+            bool = !bool;
+		}
+        var bool = false;
+    </script>
     <meta charset="utf-8">
     
 </head>
@@ -32,10 +38,10 @@
         y = n.getFullYear();
         m = n.getMonth() + 1;
         d = n.getDate();
-        document.getElementById("date").innerHTML = d + ". " + m + ", " + y;
+        document.getElementById("date").innerHTML = d + ". " + m + ". " + y;
 </script>
 
-<button type="button" class = "button" onclick="resizeAllImages();">Toggle Resolution</button>
+<button type="button" class = "button" onclick="resizeAllImages('comicsstylesheet.css', 'comicsstylesheetNaturalSize.css');">Toggle Resolution</button>
 
 <div id="comic-container">
     <div id="xkcd" class="container">
