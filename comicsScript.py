@@ -10,38 +10,46 @@ def GetWebsite(url, tag, name, getType, append):
     #tag is the location of the image in the html document
     #name is what the image file will be named when it's downloaded
     #getType is how the image source url will be processed
-    
-    res = requests.get(url) #Download the webpage
-    res.raise_for_status() #see if it works
+    try:
+        res = requests.get(url) #Download the webpage
+        res.raise_for_status() #see if it works
 
-    soup = bs4.BeautifulSoup(res.text, "lxml") #Creates a bs4 object so the html document can be parsed
+        soup = bs4.BeautifulSoup(res.text, "lxml") #Creates a bs4 object so the html document can be parsed
+        #print(res.text)
 
-    comicElem = soup.select(tag) #Select the comic image
+        comicElem = soup.select(tag) #Select the comic image
 
-    print ("Getting comic from {}".format(url))
+        print ("Getting comic from {}".format(url))
 
 
-    #This bit requires a lot of explaining. What the getType variable does is determine how the image source url will be retrieved.
-    #With getType 0, it appends something special to the beginning. For when the src isn't in the element directly, but also isn't just preceded by the url.
-    #getType 1 gets the image source, and adds the url to the beginning. Used when the img src attribute doesn't have a url at the beginning.
-    #getType 2 just gets the image source. Used when the img src attribute is complete.
-    #If you want to add your own websites make sure you know which of these to use
-    
-    if getType == 0:
-        comicUrl = append + comicElem[0].get("src")
-    elif getType == 1:
-        comicUrl = url + comicElem[0].get("src")
-    else:
-        comicUrl = comicElem[0].get("src")
-
+        #This bit requires a lot of explaining. What the getType variable does is determine how the image source url will be retrieved.
+        #With getType 0, it appends something special to the beginning. For when the src isn't in the element directly, but also isn't just preceded by the url.
+        #getType 1 gets the image source, and adds the url to the beginning. Used when the img src attribute doesn't have a url at the beginning.
+        #getType 2 just gets the image source. Used when the img src attribute is complete.
+        #If you want to add your own websites make sure you know which of these to use
+        try:
+            if getType == 0:
+                comicUrl = append + comicElem[0].get("src")
+            elif getType == 1:
+                comicUrl = url + comicElem[0].get("src")
+            else:
+                comicUrl = comicElem[0].get("src")
         
-    res = requests.get(comicUrl) #Get the souce url of the comic image
-    res.raise_for_status() #Make sure the website exists
 
-    imageFile = open(os.path.basename(name), "wb") #Makes the imageFile variable as a writable file in binary mode. The name variable defines what the image file will be named.
-    for chunk in res.iter_content(10000): #download the image in 10kb chunks
-        imageFile.write(chunk) #write the chunk into the file
-    imageFile.close()
+            
+            res = requests.get(comicUrl) #Get the souce url of the comic image
+            res.raise_for_status() #Make sure the website exists
+
+            imageFile = open(os.path.basename(name), "wb") #Makes the imageFile variable as a writable file in binary mode. The name variable defines what the image file will be named.
+            for chunk in res.iter_content(10000): #download the image in 10kb chunks
+                imageFile.write(chunk) #write the chunk into the file
+            imageFile.close()
+        except Exception as e:
+            print(e)
+            print ("Couldn't download comic from {}".format(url))
+    except Exception as e:
+        print(e)
+        print("Couldn't retrieve webpage from {}".format(url))
 
 def GetHoverText(url, tag):
     #Most of what this does was explained in the commenting for the GetWebsite function
@@ -53,9 +61,11 @@ def GetHoverText(url, tag):
     
     text = textElem[0].get("title")
 
-    #The point of this bit is to make sure apostrophies and quotation marks in the text itself can't screw with the js file when it's written
+    #The point of this bit is to make sure apostrophies, quotation marks, and line breaks in the text itself can't screw with the js file when it's written
     text = text.replace("'", "")
     text = text.replace('"', '')
+    text = text.replace("\n", " | ")
+    text = text.replace("\r", " | ")
     
     return text
     
@@ -63,22 +73,22 @@ def GetHoverText(url, tag):
 #Go through all the functions
 GetWebsite("https://xkcd.com", "#comic img", "xkcd", 0, "http:")
 xkcdtext = GetHoverText("https://xkcd.com", "#comic img")
-GetWebsite("https://www.smbc-comics.com/", "#cc-comic", "smbc", 1, "")
-GetWebsite("https://www.smbc-comics.com/", "#aftercomic img", "smbc-bonus", 0, "https:")
+GetWebsite("https://www.smbc-comics.com/", "#cc-comic", "smbc", 2, "")
+GetWebsite("https://www.smbc-comics.com/", "#aftercomic img", "smbc-bonus", 2, "")
 smbctext = GetHoverText("https://www.smbc-comics.com/", "#cc-comic")
 GetWebsite("http://www.bugmartini.com", "#comic img", "bugmartini", 2, "")
-#GetWebsite("http://the-whiteboard.com/", "center + center img", "whiteboard", 1, "") #this website won't work and I don't know why.
-GetWebsite("http://www.qwantz.com/index.php", ".comic", "dinosaurcomics", 2, "")
+GetWebsite("http://the-whiteboard.com/", 'img[SRC^="autotwb"]', "whiteboard", 1, "") #this website won't work and I don't know why.
+GetWebsite("http://www.qwantz.com/index.php", ".comic", "dinosaurcomics", 0, "http://www.qwantz.com/")
 dinotext = GetHoverText("http://www.qwantz.com/index.php", ".comic")
 GetWebsite("http://nellucnhoj.com", "figure a img", "nellucnhoj", 2, "")
 GetWebsite("http://www.housepetscomic.com", "#comic img", "housepets", 2, "")
 petstext = GetHoverText("http://www.housepetscomic.com", "#comic img")
 GetWebsite("http://www.joshuawright.net/index.html", "[data-muse-type=img_frame] img", "slackwyrm", 0, "http://www.joshuawright.net/")
-GetWebsite("http://jerkcity.com", ".aidsy", "jerkcity", 1, "")
+GetWebsite("https://www.bonequest.com/", ".hitler", "jerkcity", 1, "")
 GetWebsite("http://sarahburrini.com/wordpress/", "#comic img", "ponyhof", 2, "")
 GetWebsite("http://ruthe.de/", "#link_archive img", "ruthe", 1, "")
 GetWebsite("https://2null3.net/category/deutsch/", ".entry-content p img", "2null3", 2, "")
-
+GetWebsite("http://www.sandraandwoo.com/woode/", "#comic img", "sandraandwoo", 0, "http://www.sandraandwoo.com/")
 
 #I bet there's a way better way to do this part.
 print("Implementing hover text...")
